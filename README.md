@@ -12,7 +12,9 @@ The script output explained
 
 Here is the script output of a running node with some explanations:
 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 NOIA node data, status and statistics - Sep 23 13:57:16<br />
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 Node name                atu-rpi3<br />
 External IP address      176.93.49.39<br />
@@ -31,6 +33,8 @@ Total downloaded         147 MB             <-- All time downloadd data<br />
 Total uploaded           9 GB               <-- All time uploaded data<br />
 
 (Legend: Green: OK/Good, Yellow: Acceptable, Red: Not OK/Poor)
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 If the node is not verified OK at all yet, the script also tests TCP port 8048 
 openness to internet. Based on the test result you get either a message:
