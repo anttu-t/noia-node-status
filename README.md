@@ -12,7 +12,7 @@ Instructions to get started
 The script output explained
 ---------------------------
 
-Here is the script output of a running node with some explanations:
+Here is a sample script output of a running node with some explanations:
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 NOIA node data, status and statistics - Sep 23 13:57:16<br />
