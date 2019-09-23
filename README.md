@@ -12,20 +12,19 @@ The script output explained
 
 Here is the script output of a running node with some explanations:
 
--------------------------------------------------------------------
-NOIA node data, status and statistics - Sep 23 13:57:16
--------------------------------------------------------------------
 
-Node name                atu-rpi3           
-External IP address      176.93.49.39       
+NOIA node data, status and statistics - Sep 23 13:57:16
+
+Node name                atu-rpi3
+External IP address      176.93.49.39
 Beneficiary address      0x406cd9b0b56f3d9c9c70ca542f0968ddfbf93c4b
 System location          Helsinki, Finland
 Storage directory        /home/pi/.noia-node/storage
 Storage size             1 GB        <-- The amount you have defined in node.settings
-Uptime today             14 hours    <- Hours diagnosed OK after midnight            
+Uptime today             14 hours    <- Hours diagnosed OK after midnight
 Status checked OK        5 min ago   <- The latest time of tested OK, should be less than 1 h 
 Test server address      ookla.cumulustech.co.uk
-Measured download speed  19 Mb/s     
+Measured download speed  19 Mb/s
 Measured upload speed    13 Mb/s
 Network ping time        62 ms
 Cumulative uptime        262 days 20 hours  <-- All time uptime of this wallet address
