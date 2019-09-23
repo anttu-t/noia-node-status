@@ -13,7 +13,7 @@ The script output explained
 Here is the script output of a running node with some explanations:
 
 
-NOIA node data, status and statistics - Sep 23 13:57:16
+`NOIA node data, status and statistics - Sep 23 13:57:16
 
 Node name                atu-rpi3
 External IP address      176.93.49.39
@@ -31,9 +31,7 @@ Cumulative uptime        262 days 20 hours  <-- All time uptime of this wallet a
 Total downloaded         147 MB             <-- All time downloadd data
 Total uploaded           9 GB               <-- All time uploaded data
 
-(Legend: Green: OK/Good, Yellow: Acceptable, Red: Not OK/Poor)
-
---------------------------------------------------------------------
+(Legend: Green: OK/Good, Yellow: Acceptable, Red: Not OK/Poor)`
 
 If the node is not verified OK at all yet, the script also tests TCP port 8048 
 openness to internet. Based on the test result you get either a message:
