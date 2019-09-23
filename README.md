@@ -2,6 +2,7 @@
 A script for checking Linux CLI NOIA node data, status and statistics
 
 Instructions to get started
+---------------------------
 
 1. Log in to you node command line
 2. Download the script, command:
@@ -9,6 +10,7 @@ Instructions to get started
 4. Run the script, command: 
 
 The script output explained
+---------------------------
 
 Here is the script output of a running node with some explanations:
 
