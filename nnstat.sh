@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# A script for checking Linux CLI NOIA node data, status and statistics 
-# Version 190923-1
+# A script for checking Linux CLI NOIA node data, status and statistics
+# Version 190925-1
 
 # Fetch log messages to temporary files
 tac /var/log/syslog |grep -m 1 "changed bandwidth" > tnn.log
@@ -16,7 +16,7 @@ curDay=`date '+%d' | sed 's/^0*//'`
 curHour=`date '+%H' | sed 's/^0*//'`
 curMinute=`date '+%M' | sed 's/^0*//'`
 nodeName=`cat tnn.log |cut -f 4 -d " "`
-nodeIp=`cat tnn.log |cut -f 6 -d "=" |cut -f 1 -d ","`
+nodeIp=`dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}'`
 airDrop=`grep airdropAddress .noia-node/node.settings |cut -f 2 -d "="`
 storeDir=`grep dir= .noia-node/node.settings |cut -f 2 -d "="`
 storeSize=`grep size= .noia-node/node.settings |cut -f 2 -d "="`
@@ -58,7 +58,14 @@ logHourMin=$(( $logHour * 60 ))
 logHourMin=$(( $logHourMin + $logMinute ))
 logAge=$(( $curHourMin - $logHourMin ))
 
+# Define IP address type
+ipLength=`expr length $nodeIp`
+
 # Define value based colors
+ipColor=$red
+if [ "$ipLength" -gt "15" ]; then
+  ipColor=$green
+fi
 uptimeColor=$yellow
 if [ "$upDiff" -ge "3" ]; then
   uptimeColor=$red
@@ -69,11 +76,6 @@ fi
 
 if [ "$logAge" -le "0" ]; then
 logAge=$(($logAge + 60))
-fi
-if [ "$storeSize" -ge "1073741824" ]; then
-  storeColor=$green
-else
-  storeColor=$red
 fi
 if [ "$logAge" -le "60" ]; then
   dateColor=$green
@@ -94,7 +96,6 @@ fi
 if [ "$upLoad" -le "20" ]; then
   upColor=$red
 fi
-
 pingColor=$yellow
 if [ "$pingTime" -ge "70" ]; then
   pingColor=$red
@@ -103,6 +104,7 @@ if [ "$pingTime" -le "30" ]; then
   pingColor=$green
 fi
 
+# Define data units
 downLoaded=$downGbytes
 downUnit="GB"
 if [ "$downGbytes" = "0" ]; then
@@ -146,11 +148,11 @@ if [ "$storeKbytes" = "0" ]; then
   storeUnit="bytes"
 fi
 
-# Print results
+# Print data
 clear
 echo
 
-# If node verified OK, print fetched data, else print exception messages
+# If node verified OK, print fetched data...
 if [ "$logAge" != "" ]; then
   headColor=$blue
   printf "${headColor}-------------------------------------------------------------------\n"
@@ -161,16 +163,17 @@ if [ "$logAge" != "" ]; then
   printf '%-25s' 'Node name'
   echo $nodeName
   printf '%-25s' 'External IP address'
-  echo $nodeIp
+  printf "${ipColor}$nodeIp${noColor}\n"
   printf '%-25s' 'Beneficiary address'
   echo $airDrop
   printf '%-25s' 'System location'
   echo $cityName', '$countryName
+  printf '%-25s' 'Service provider'
+  echo $ispName
   printf '%-25s' 'Storage directory'
   echo $storeDir
   printf '%-25s' 'Storage size'
-  printf "${storeColor}$storage"
-  printf "${storeColor} $storeUnit${noColor}\n"
+  echo $storage' '$storeUnit
   printf '%-25s' 'Uptime today'
   printf "${uptimeColor}$upTime"
   printf "${uptimeColor} hours${noColor}\n"
@@ -197,6 +200,7 @@ if [ "$logAge" != "" ]; then
   echo
   echo '(Legend: Green: OK/Good, Yellow: Acceptable, Red: Not OK/Poor)'
   echo
+# If node not up, check TCP 8048 port and print notifications
 else
   echo
   echo "The node is down or not verified yet. (Can take up to 1 h)"
