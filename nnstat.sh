@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # A script for checking Linux CLI NOIA node data, status and statistics
-# Version 190925-1
+# Version 190926-1
 
 # Fetch log messages to temporary files
 tac /var/log/syslog |grep -m 1 "changed bandwidth" > tnn.log
@@ -200,19 +200,10 @@ if [ "$logAge" != "" ]; then
   echo
   echo '(Legend: Green: OK/Good, Yellow: Acceptable, Red: Not OK/Poor)'
   echo
-# If node not up, check TCP 8048 port and print notifications
+# If the node is not up (yet), print notification
 else
   echo
   echo "The node is down or not verified yet. (Can take up to 1 h)"
-  echo
-  portChk=`timeout 1s telnet $nodeIp 8048 |grep Connected |cut -f 1 -d " "`
-  if [ "$portChk" = "Connected" ]; then
-    echo "Port 8048 tested OK"
-  else
-    clear
-    echo
-    echo "The node is down for TCP port 8048 being blocked!"
-  fi
   echo
 fi
 
