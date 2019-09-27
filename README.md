@@ -14,10 +14,13 @@ https://medium.com/@anttiturunen/set-up-noia-node-on-linux-df4a00635759
 cd ~
 curl -LO https://raw.githubusercontent.com/anttu-t/noia-node-status/master/nnstat.sh
 
-3. Give execute rights to the script, command:
+3. Install dnsutils required for checking the external IP address:
+sudo apt install dnsutils
+
+4. Give execute rights to the script, command:
 sudo chmod u+x nnstat.sh
 
-4. Run the script (in home directory), command:
+5. Run the script (in home directory), command:
 ./nnstat.sh
 
 The script output explained
