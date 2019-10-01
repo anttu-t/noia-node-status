@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # A script for checking Linux CLI NOIA node data, status and statistics
-# Version 190926-1
+# Version 191001-1
 
 # Fetch log messages to temporary files
 tac /var/log/syslog |grep -m 1 "changed bandwidth" > tnn.log
@@ -9,13 +9,13 @@ tac /var/log/syslog |grep -m 1 "Received statistics" > tno.log
 
 # Define variables
 logDate=`cat tnn.log |cut -c 1-15`
-logDay=`cat tnn.log |cut -c 1-15 |cut -f 2 -d " " | sed 's/^0*//'`
-logHour=`cat tnn.log |cut -c 1-15 |cut -f 3 -d " " |cut -f 1 -d ":" | sed 's/^0*//'`
-logMinute=`cat tnn.log |cut -c 1-15 |cut -f 3 -d " " |cut -f 2 -d ":" | sed 's/^0*//'`
+logDay=`cat tnn.log |cut -c 5-6 |sed 's/^0*//'`
+logHour=`cat tnn.log |cut -c 8-9| sed 's/^0*//'`
+logMinute=`cat tnn.log |cut -c 11-12| sed 's/^0*//'`
 curDay=`date '+%d' | sed 's/^0*//'`
 curHour=`date '+%H' | sed 's/^0*//'`
 curMinute=`date '+%M' | sed 's/^0*//'`
-nodeName=`cat tnn.log |cut -f 4 -d " "`
+nodeName=`cat tnn.log |cut -f 3 -d ":" |cut -f 2 -d " "`
 nodeIp=`dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}'`
 airDrop=`grep airdropAddress .noia-node/node.settings |cut -f 2 -d "="`
 storeDir=`grep dir= .noia-node/node.settings |cut -f 2 -d "="`
@@ -200,10 +200,19 @@ if [ "$logAge" != "" ]; then
   echo
   echo '(Legend: Green: OK/Good, Yellow: Acceptable, Red: Not OK/Poor)'
   echo
-# If the node is not up (yet), print notification
+# If node not up, check TCP 8048 port and print notifications
 else
   echo
   echo "The node is down or not verified yet. (Can take up to 1 h)"
+  echo
+  portChk=`timeout 1s telnet $nodeIp 8048 |grep Connected |cut -f 1 -d " "`
+  if [ "$portChk" = "Connected" ]; then
+    echo "Port 8048 tested OK"
+  else
+    clear
+    echo
+    echo "The node is down for TCP port 8048 being blocked!"
+  fi
   echo
 fi
 
